@@ -1,0 +1,216 @@
+// Noor-ul-Ilm database schema.
+// SQLite by default (one file, ideal for a single VPS). To use Postgres,
+// change provider to "postgresql" and set DATABASE_URL accordingly.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Admin accounts. roles is a comma-separated list of:
+/// SUPER_ADMIN, BROTHERS_ADMIN, SISTERS_ADMIN, SCHOLAR
+/// gender: "M" | "F"  (SISTERS_ADMIN requires "F")
+model User {
+  id            String       @id @default(cuid())
+  name          String
+  email         String       @unique
+  passwordHash  String
+  gender        String
+  roles         String
+  title         String       @default("") // e.g. "Mufti", "Aalimah" — shown on reviewed posts
+  active        Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  reviewedPosts Post[]       @relation("PostReviewer")
+  verifiedTexts SacredText[] @relation("TextVerifier")
+  answered      Question[]   @relation("QuestionAnswerer")
+  auditLogs     AuditLog[]
+}
+
+/// Islamic posts. Body uses simple markup (see ADMIN-GUIDE).
+/// status: DRAFT -> PENDING_REVIEW -> APPROVED (only a SCHOLAR can approve)
+model Post {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  category     String
+  cover        String    @default("star")
+  titleUr      String
+  titleEn      String
+  titleAr      String    @default("")
+  summaryUr    String
+  summaryEn    String
+  summaryAr    String    @default("")
+  bodyUr       String
+  bodyEn       String
+  bodyAr       String    @default("")
+  refsUr       String    @default("")
+  refsEn       String    @default("")
+  refsAr       String    @default("")
+  status       String    @default("DRAFT")
+  reviewerId   String?
+  reviewer     User?     @relation("PostReviewer", fields: [reviewerId], references: [id])
+  reviewedAt   DateTime?
+  reviewNote   String    @default("")
+  publishedAt  DateTime  @default(now())
+  createdById  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status, category])
+}
+
+/// Quranic verses and Hadith. Editing the text resets verified=false.
+/// kind: AYAH | HADITH
+model SacredText {
+  id         String    @id @default(cuid())
+  key        String    @unique
+  kind       String
+  arabic     String
+  ur         String
+  en         String
+  refUr      String
+  refEn      String
+  refAr      String
+  grading    String    @default("")
+  partial    Boolean   @default(false)
+  showOnHome Boolean   @default(false)
+  verified   Boolean   @default(false)
+  verifierId String?
+  verifier   User?     @relation("TextVerifier", fields: [verifierId], references: [id])
+  verifiedAt DateTime?
+  updatedAt  DateTime  @updatedAt
+}
+
+/// type: naat | dars | ijtima | milad | gyarwi
+/// audience: sisters | brothers | all
+/// date: "YYYY-MM-DD", or "" for a recurring event (then recurring* is used)
+model Event {
+  id          String   @id @default(cuid())
+  type        String
+  area        String
+  audience    String
+  date        String   @default("")
+  recurringUr String   @default("")
+  recurringEn String   @default("")
+  recurringAr String   @default("")
+  titleUr     String
+  titleEn     String
+  titleAr     String   @default("")
+  timeUr      String   @default("")
+  timeEn      String   @default("")
+  timeAr      String   @default("")
+  venueUr     String   @default("")
+  venueEn     String   @default("")
+  venueAr     String   @default("")
+  speakerUr   String   @default("")
+  speakerEn   String   @default("")
+  speakerAr   String   @default("")
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+/// Female scholars (text profiles only — never photos without written consent)
+model Scholar {
+  id         String         @id @default(cuid())
+  nameUr     String
+  nameEn     String
+  nameAr     String         @default("")
+  titleUr    String         @default("")
+  titleEn    String         @default("")
+  titleAr    String         @default("")
+  subjectsUr String         @default("")
+  subjectsEn String         @default("")
+  subjectsAr String         @default("")
+  bioUr      String         @default("")
+  bioEn      String         @default("")
+  bioAr      String         @default("")
+  sort       Int            @default(0)
+  active     Boolean        @default(true)
+  classes    ClassSession[]
+}
+
+/// subject: quran | tajweed | fiqh | seerat
+/// level: beginner | intermediate | advanced
+/// ageGroup: girls | young | women
+/// mode: online | inperson | both
+model ClassSession {
+  id        String   @id @default(cuid())
+  subject   String
+  level     String
+  ageGroup  String
+  mode      String
+  whenUr    String
+  whenEn    String
+  whenAr    String   @default("")
+  whereUr   String
+  whereEn   String
+  whereAr   String   @default("")
+  teacherId String?
+  teacher   Scholar? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+  active    Boolean  @default(true)
+  sort      Int      @default(0)
+}
+
+/// PRIVATE — visible only to female SISTERS_ADMIN users.
+model SisterRegistration {
+  id              String   @id @default(cuid())
+  name            String
+  phone           String
+  ageGroup        String
+  area            String
+  subject         String
+  level           String
+  mode            String
+  notes           String   @default("")
+  guardianConsent Boolean  @default(false)
+  status          String   @default("NEW") // NEW | CONTACTED | ENROLLED | CLOSED
+  createdAt       DateTime @default(now())
+}
+
+/// Join-us applications. section decides who can see it:
+/// SISTERS -> female SISTERS_ADMIN only; BROTHERS -> SUPER_ADMIN / BROTHERS_ADMIN.
+model MemberApplication {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  gender    String
+  area      String
+  role      String // vbrother | vsister | student | supporter
+  notes     String   @default("")
+  section   String
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+}
+
+/// Youth Q&A. Answers are written/approved by a SCHOLAR before publishing.
+model Question {
+  id         String    @id @default(cuid())
+  question   String
+  lang       String    @default("ur")
+  answerUr   String    @default("")
+  answerEn   String    @default("")
+  answerAr   String    @default("")
+  questionEn String    @default("")
+  questionAr String    @default("")
+  questionUr String    @default("")
+  published  Boolean   @default(false)
+  answererId String?
+  answerer   User?     @relation("QuestionAnswerer", fields: [answererId], references: [id])
+  createdAt  DateTime  @default(now())
+  answeredAt DateTime?
+}
+
+/// Who did what — especially who viewed private registrations.
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String   @default("")
+  createdAt DateTime @default(now())
+}
