@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CONTACT, ORG } from "@/content/site";
+import { ORG } from "@/content/site";
+import type { Contact } from "@/lib/config";
 import { tr, type Lang } from "@/lib/lang";
 import { getT } from "@/lib/strings";
 import Logo from "./Logo";
@@ -7,7 +8,7 @@ import { WhatsAppIcon } from "./Icons";
 
 export const waLink = (num: string, text?: string) => `https://wa.me/${num}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
-export default function Footer({ lang, nav }: { lang: Lang; nav: { href: string; label: string }[] }) {
+export default function Footer({ lang, nav, contact: CONTACT }: { lang: Lang; nav: { href: string; label: string }[]; contact: Contact }) {
   const t = getT(lang);
   return (
     <>
@@ -30,8 +31,8 @@ export default function Footer({ lang, nav }: { lang: Lang; nav: { href: string;
               <h4>{t("contact")}</h4>
               <ul>
                 <li><a href={waLink(CONTACT.whatsappGeneral)} rel="noopener">WhatsApp</a></li>
-                <li className="ltr">{CONTACT.phone}</li>
-                <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
+                {CONTACT.phone && <li><a className="ltr" href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>{CONTACT.phone}</a></li>}
+                {CONTACT.email && <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>}
                 <li>{tr(CONTACT.address, lang)}</li>
               </ul>
             </div>

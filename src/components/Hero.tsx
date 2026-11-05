@@ -87,7 +87,7 @@ export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollL
             <Link className="btn btn-light" href={cta.register.href}>{cta.register.label}</Link>
             <Link className="btn btn-outline" href={cta.donate.href}>{cta.donate.label}</Link>
           </div>
-          <a className="scroll-cue rise" href="#today" style={{ "--d": "1.3s" } as React.CSSProperties}>{scrollLabel}</a>
+          <a className="scroll-cue rise" href="#upcoming" style={{ "--d": "1.3s" } as React.CSSProperties}>{scrollLabel}</a>
         </div>
       </div>
     </section>

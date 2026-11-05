@@ -32,3 +32,6 @@ export async function textsForBodies(...bodies: string[]): Promise<Map<string, S
 /** The next featured gathering (e.g. the monthly Dars), shown as a banner. */
 export const nextFeaturedEvent = () =>
   db.event.findFirst({ where: { published: true, featured: true, date: { gte: todayPK() } }, orderBy: { date: "asc" } });
+
+/** Public community size: a number only (never names). Closed requests are not counted. */
+export const communityCount = () => db.memberApplication.count({ where: { status: { not: "CLOSED" } } });

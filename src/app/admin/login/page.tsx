@@ -14,7 +14,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
         <div style={{ display: "flex", justifyContent: "center" }}><Logo size={84} id="login" /></div>
         <h1 style={{ marginTop: 8 }}>Noor-ul-Ilm Admin</h1>
         <p className="sub ur" dir="rtl">منتظمین کے لیے لاگ اِن</p>
-        {e === "1" && <p className="alert alert-err">Wrong email or password. · ای میل یا پاس ورڈ غلط ہے۔</p>}
+        {e === "1" && <p className="alert alert-err">Wrong username or password. · یوزر نیم یا پاس ورڈ غلط ہے۔</p>}
         {e === "rate" && <p className="alert alert-err">Too many attempts. Please wait 15 minutes. · کچھ دیر بعد کوشش کریں۔</p>}
         {e === "google" && <p className="alert alert-err">Google sign-in did not complete. Please try again. · گوگل سے لاگ اِن مکمل نہیں ہوا، دوبارہ کوشش کریں۔</p>}
         {e === "google-nouser" && <p className="alert alert-err">This Google account has no admin access. Ask the super admin to create an account with this email. · اس ای میل کا کوئی اکاؤنٹ نہیں — نگرانِ اعلیٰ سے رابطہ کریں۔</p>}
@@ -34,7 +34,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
           </>
         )}
         <form className="f" action={login}>
-          <div><label className="l" htmlFor="email">Email · ای میل</label><input id="email" name="email" type="email" autoComplete="username" required /></div>
+          <div><label className="l" htmlFor="email">Username or email · یوزر نیم یا ای میل</label><input id="email" name="email" type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} required /></div>
           <div><label className="l" htmlFor="password">Password · پاس ورڈ</label><input id="password" name="password" type="password" autoComplete="current-password" required /></div>
           <button className="btn btn-p" type="submit">Sign in · داخل ہوں</button>
         </form>

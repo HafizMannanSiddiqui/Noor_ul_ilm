@@ -9,6 +9,7 @@ import { AREAS } from "@/content/site";
 export type FormState = { ok: boolean; error?: "invalid" | "phone" | "rate" | "server" };
 
 const AREA_IDS = AREAS.map((a) => a.id) as [string, ...string[]];
+const HEARD_FROM = ["whatsapp", "family", "dars", "masjid", "facebook", "poster", "other"] as const;
 const phone = z.string().transform((s) => s.replace(/[\s-]/g, "")).refine((s) => /^(\+92|92|0)3\d{9}$/.test(s), "phone");
 const text = (max: number) => z.string().trim().max(max);
 
@@ -38,6 +39,8 @@ const sisterSchema = z.object({
   mode: z.enum(["online", "inperson"]),
   notes: text(1000).optional().default(""),
   guardian: z.string().optional(),
+  transport: z.string().optional(),
+  pickupPoint: text(200).optional().default(""),
 });
 
 export async function registerSister(_: FormState, fd: FormData): Promise<FormState> {
@@ -46,8 +49,9 @@ export async function registerSister(_: FormState, fd: FormData): Promise<FormSt
   const p = sisterSchema.safeParse(Object.fromEntries(fd));
   if (!p.success) return fail(p.error);
   try {
-    const { guardian, ...d } = p.data;
-    await db.sisterRegistration.create({ data: { ...d, guardianConsent: guardian === "on" } });
+    const { guardian, transport, pickupPoint, ...d } = p.data;
+    const needsTransport = transport === "on";
+    await db.sisterRegistration.create({ data: { ...d, guardianConsent: guardian === "on", needsTransport, pickupPoint: needsTransport ? pickupPoint : "" } });
     return { ok: true };
   } catch {
     return { ok: false, error: "server" };
@@ -59,7 +63,9 @@ const joinSchema = z.object({
   phone,
   gender: z.enum(["M", "F"]),
   area: z.enum(AREA_IDS),
-  role: z.enum(["vbrother", "vsister", "student", "supporter"]),
+  role: z.enum(["follower", "vbrother", "vsister", "student", "supporter"]),
+  city: text(60).optional().default(""),
+  heardFrom: z.enum(["", ...HEARD_FROM]).optional().default(""),
   notes: text(1000).optional().default(""),
 });
 

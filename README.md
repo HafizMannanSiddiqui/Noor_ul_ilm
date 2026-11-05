@@ -27,6 +27,13 @@ Demo accounts are created when `SEED_DEMO="true"`. They all use `DEMO_PASSWORD`:
 | mufti@demo.local | Scholar | **Approve posts**, verify verses and hadith, answer youth Q&A |
 | aalimah@demo.local (female) | Scholar + sisters' admin | Both of the above |
 
+## Live Ayah, Hadith and Site settings
+
+- **Ayah of the Day** loads live from api.alquran.cloud: Uthmani Arabic (Tanzil) with Kanz-ul-Iman in Urdu (`ur.kanzuliman`) and English (`en.ahmedraza`). **Hadith of the Day** is Imam an-Nawawi's Forty Hadith from the hadith-api (Arabic and English; scholars add Urdu in `src/content/daily.ts`). Responses are cached for a week by Next.js, nothing is stored in the database, and the cards have a "Status image" share button (1080×1920 PNG made in the browser).
+- **Admin → Site settings** (super admin) edits contact numbers, donation accounts, spending, the team and the Ayah-of-the-Day list. Values are stored in the `Setting` table; `src/content/site.ts` only holds the defaults.
+- **Admin → Community stats** shows joins per month, area, city, role and source (numbers only).
+- Login accepts a **username** as well as an email: set `ADMIN_EMAIL="admin"` to sign in as `admin`.
+
 ## Sign in with Google (free)
 
 Admins can sign in with their Google account instead of a password. Google does not charge for this.

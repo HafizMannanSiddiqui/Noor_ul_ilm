@@ -1,4 +1,5 @@
 import "../globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -10,6 +11,7 @@ import { dirOf, LANGS, tr } from "@/lib/lang";
 import { langOf, type LangParams } from "@/lib/page";
 import { SITE_URL } from "@/lib/settings";
 import { getT } from "@/lib/strings";
+import { getConfig } from "@/lib/config";
 
 export function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
@@ -32,6 +34,7 @@ export const viewport: Viewport = { themeColor: "#0a3a2b", width: "device-width"
 export default async function SiteLayout({ children, params }: LangParams & { children: React.ReactNode }) {
   const lang = await langOf(params);
   const t = getT(lang);
+  const { contact } = await getConfig();
   const p = (s: string) => `/${lang}${s}`;
   const nav = [
     { href: p(""), label: t("home") },
@@ -53,7 +56,7 @@ export default async function SiteLayout({ children, params }: LangParams & { ch
       <body>
         <Header lang={lang} name={tr(ORG.name, lang)} tagline={tr(ORG.tagline, lang)} menuLabel={t("menu")} langLabel={t("language")} skipLabel={t("skip")} nav={nav} />
         <main id="main" tabIndex={-1}>{children}</main>
-        <Footer lang={lang} nav={nav.slice(1, 7)} />
+        <Footer lang={lang} nav={nav.slice(1, 7)} contact={contact} />
         <TabBar
           home={p("")}
           tabs={[
@@ -65,6 +68,8 @@ export default async function SiteLayout({ children, params }: LangParams & { ch
           ]}
         />
         <RevealObserver />
+        {/* Visitor counts by country, page and device (Vercel Web Analytics; no cookies). Enable it in the Vercel project. */}
+        <Analytics />
       </body>
     </html>
   );

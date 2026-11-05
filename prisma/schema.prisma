@@ -1,6 +1,5 @@
 // Noor-ul-Ilm database schema.
-// SQLite by default (one file, ideal for a single VPS). To use Postgres,
-// change provider to "postgresql" and set DATABASE_URL accordingly.
+// PostgreSQL (Neon on Vercel). See the datasource block below.
 
 generator client {
   provider = "prisma-client-js"
@@ -170,6 +169,8 @@ model SisterRegistration {
   mode            String
   notes           String   @default("")
   guardianConsent Boolean  @default(false)
+  needsTransport  Boolean  @default(false) // pick & drop to the Ijtima / class point
+  pickupPoint     String   @default("")    // area or landmark for pick-up (private: female admins only)
   status          String   @default("NEW") // NEW | CONTACTED | ENROLLED | CLOSED
   createdAt       DateTime @default(now())
 }
@@ -182,7 +183,9 @@ model MemberApplication {
   phone     String
   gender    String
   area      String
-  role      String // vbrother | vsister | student | supporter
+  role      String // follower | vbrother | vsister | student | supporter
+  city      String   @default("")
+  heardFrom String   @default("") // whatsapp | family | dars | masjid | facebook | poster | other
   notes     String   @default("")
   section   String
   status    String   @default("NEW")
@@ -216,4 +219,11 @@ model AuditLog {
   entity    String
   entityId  String   @default("")
   createdAt DateTime @default(now())
+}
+
+/// Website settings edited in Admin > Site settings (JSON per section). Defaults live in src/content/site.ts.
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }

@@ -22,14 +22,15 @@ export default async function Members({ searchParams }: { searchParams: Promise<
       <Msg ok={ok} err={err} />
       <div className="table-wrap" style={{ marginTop: 12 }}>
         <table>
-          <thead><tr><th>Received</th><th>Name &amp; phone</th><th>Role</th><th>Area</th><th>Notes</th><th>Status</th></tr></thead>
+          <thead><tr><th>Received</th><th>Name &amp; phone</th><th>Role</th><th>Area / city</th><th>Heard via</th><th>Notes</th><th>Status</th></tr></thead>
           <tbody>
             {list.map((m) => (
               <tr key={m.id}>
                 <td>{fmt(m.createdAt)}<br /><small>{m.section}</small></td>
                 <td><b>{m.name}</b><br /><a href={`https://wa.me/${m.phone.replace(/^0/, "92").replace(/\D/g, "")}`} target="_blank" rel="noopener">{m.phone}</a></td>
                 <td>{m.role}</td>
-                <td>{AREAS.find((a) => a.id === m.area)?.en}</td>
+                <td>{AREAS.find((a) => a.id === m.area)?.en}{m.city ? <><br /><small>{m.city}</small></> : null}</td>
+                <td>{m.heardFrom}</td>
                 <td>{m.notes}</td>
                 <td>
                   <Badge v={m.status} />
@@ -44,7 +45,7 @@ export default async function Members({ searchParams }: { searchParams: Promise<
                 </td>
               </tr>
             ))}
-            {list.length === 0 && <tr><td colSpan={6}>No requests.</td></tr>}
+            {list.length === 0 && <tr><td colSpan={7}>No requests.</td></tr>}
           </tbody>
         </table>
       </div>

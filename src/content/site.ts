@@ -12,15 +12,18 @@ export const ORG = {
   tagline: { ur: "علم کی روشنی، ہر گھر تک", en: "The light of knowledge, to every home", ar: "نور العلم إلى كل بيت" } as Tri,
 };
 
+/** Leave a value empty ("") to hide it on the website. */
 export const CONTACT = {
-  whatsappGeneral: "923000000000", // digits only, 92 = Pakistan
-  phone: "+92 300 0000000",
-  email: "info@noorulilm.org",
+  whatsappGeneral: "923314375356", // Mudassir Bhai — digits only, 92 = Pakistan
+  phone: "+92 331 4375356",
+  email: "",
   address: { ur: "صدر کینٹ، لاہور", en: "Saddar Cantt, Lahore", ar: "صدر كانت، لاهور" } as Tri,
   mapQuery: "Saddar Cantt, Lahore",
   facebook: "",
-  /** Sisters can message a female coordinator directly. Keep this a woman's number. */
-  whatsappSisters: "923000000001",
+  /** Sisters can message a female coordinator directly. Must be a woman's number; empty hides the button. */
+  whatsappSisters: "",
+  /** Invite link to your WhatsApp Community or Channel (https://chat.whatsapp.com/... or https://whatsapp.com/channel/...). Empty hides the button. */
+  whatsappCommunity: "",
 };
 
 export const PRAYER: PrayerSettings = {
@@ -59,29 +62,32 @@ export const CATEGORIES: (Tri & { id: string; group?: "fiqh" })[] = [
   { id: "auliya", ur: "اولیائے کرام", en: "Auliya-e-Kiram", ar: "الأولياء الكرام" },
   { id: "women", ur: "خواتین کے مسائل", en: "Masail for Women", ar: "مسائل النساء" },
   { id: "family", ur: "خاندان و تربیتِ اولاد", en: "Family & Tarbiyat-e-Aulad", ar: "الأسرة وتربية الأولاد" },
+  { id: "adab", ur: "روزمرہ کی سنتیں و آداب", en: "Daily Sunnahs & Adab", ar: "السنن والآداب اليومية" },
   { id: "naat", ur: "نعت و دعائیں", en: "Naat & Duas", ar: "النعت والأدعية" },
 ];
 export const FIQH_GROUP: Tri = { ur: "فقہ حنفی", en: "Hanafi Fiqh", ar: "الفقه الحنفي" };
 
 export const DONATE = {
   zakatAccepted: false, // set true ONLY after a Mufti confirms in writing
-  registration: { ur: "[رجسٹریشن: پنجاب چیریٹیز کمیشن — نمبر یہاں درج کریں]", en: "[Registration: Punjab Charities Commission — add number here]", ar: "[التسجيل: هيئة الجمعيات الخيرية في البنجاب — أضف الرقم هنا]" } as Tri,
+  /** Charity registration number (e.g. Punjab Charities Commission). Empty hides it. */
+  registration: { ur: "", en: "", ar: "" } as Tri,
   /** Donors send the payment screenshot here (Hafiz Muhammad Owais). */
   receiptWhatsapp: "923204848500",
   accounts: [
     { type: "jazzcash", title: "Hafiz Muhammad Owais · حافظ محمد اویس", number: "0320 4848500" },
     { type: "easypaisa", title: "Hafiz Muhammad Owais · حافظ محمد اویس", number: "0320 4848500" },
-    { type: "bank", title: "[Account title]", bank: "[Bank name, branch]", number: "[Account number]", iban: "PKXX XXXX XXXX XXXX XXXX XXXX" },
   ] as { type: "jazzcash" | "easypaisa" | "bank"; title: string; number: string; bank?: string; iban?: string }[],
+  /** Where donations are spent (shown on the Donate page). */
+  spending: [
+    { ur: "تشریف لانے والی عالمہ کا آمد و رفت کا کرایہ", en: "Travel fare for the visiting Aalimah", ar: "أجرة تنقّل العالمة الزائرة" },
+    { ur: "شرکاء کے لیے ریفریشمنٹ", en: "Refreshments for those attending", ar: "الضيافة للحاضرات" },
+    { ur: "تشہیر: پوسٹرز اور بینرز", en: "Publicity: posters and banners", ar: "الإعلان: الملصقات واللافتات" },
+  ] as Tri[],
+  /** Monthly spending report for the Transparency section. Empty items hide the section.
+      Example: { label: { ur: "عالمات کا اعزازیہ", en: "Honoraria", ar: "مكافآت" }, percent: 40 } */
   funds: {
-    period: { ur: "[مہینہ / سال]", en: "[Month / Year]", ar: "[الشهر / السنة]" } as Tri,
-    items: [
-      { label: { ur: "عالمات کا اعزازیہ", en: "Honoraria for female scholars", ar: "مكافآت العالمات" }, percent: 40 },
-      { label: { ur: "مقام اور انتظامات", en: "Venue & arrangements", ar: "المكان والترتيبات" }, percent: 20 },
-      { label: { ur: "کتب و تعلیمی مواد", en: "Books & study material", ar: "الكتب والمواد التعليمية" }, percent: 20 },
-      { label: { ur: "آن لائن کلاسز (انٹرنیٹ وغیرہ)", en: "Online classes (internet etc.)", ar: "الدروس عن بُعد" }, percent: 10 },
-      { label: { ur: "انتظامی اخراجات", en: "Administration", ar: "مصاريف إدارية" }, percent: 10 },
-    ] as { label: Tri; percent: number }[],
+    period: { ur: "", en: "", ar: "" } as Tri,
+    items: [] as { label: Tri; percent: number }[],
   },
 };
 
@@ -107,10 +113,5 @@ export const QUIZ: { q: Tri; options: Tri[]; answer: number }[] = [
 
 /** Short history stories for the Youth section. verified=false shows a "Draft" warning (or hides when SHOW_DRAFTS=false). */
 export const STORIES: { title: Tri; text: Tri; verified: boolean }[] = [
-  { verified: false,
-    title: { ur: "امامِ اعظم ابو حنیفہ رحمۃ اللہ علیہ کا شوقِ علم", en: "Imam-e-Azam Abu Hanifa's Love of Knowledge", ar: "شغف الإمام الأعظم أبي حنيفة بالعلم" },
-    text: { ur: "امامِ اعظم ابو حنیفہ نعمان بن ثابت رحمۃ اللہ علیہ 80 ہجری میں کوفہ میں پیدا ہوئے۔ آپ تجارت کرتے تھے، مگر علم کی محبت نے آپ کو اپنے استاد حضرت حماد بن ابی سلیمان رحمۃ اللہ علیہ کی مجلس سے برسوں تک جوڑے رکھا۔ آپ نے سوال پوچھنے، غور کرنے اور شاگردوں کے ساتھ مل کر مسائل پر بحث کرنے کا طریقہ اپنایا — اور آج دنیا کے کروڑوں مسلمان آپ کی فقہ پر عمل کرتے ہیں۔ سبق: علم کے لیے صبر اور اچھے استاد کی صحبت ضروری ہے۔", en: "Imam-e-Azam Abu Hanifa Nu'man bin Thabit (may Allah have mercy on him) was born in Kufa in 80 AH. He was a merchant, yet his love of knowledge kept him in the circle of his teacher Hammad bin Abi Sulayman for many years. He asked questions, reflected deeply and discussed issues together with his students — and today hundreds of millions of Muslims follow his fiqh. Lesson: knowledge needs patience and the company of a good teacher.", ar: "وُلد الإمام الأعظم أبو حنيفة النعمان بن ثابت رحمه الله في الكوفة سنة 80هـ. كان تاجرًا، لكن حبّه للعلم أبقاه في حلقة شيخه حمّاد بن أبي سليمان سنين طويلة. كان يسأل ويتأمّل ويتدارس المسائل مع تلاميذه — واليوم يتّبع فقهَه مئات الملايين من المسلمين. العبرة: العلم يحتاج إلى الصبر وصحبة المعلّم الصالح." } },
-  { verified: false,
-    title: { ur: "داتا گنج بخش — لاہور کے روحانی محسن", en: "Data Ganj Bakhsh — Lahore's Spiritual Benefactor", ar: "داتا گنج بخش — مُحسن لاهور الروحي" },
-    text: { ur: "حضرت سید علی بن عثمان ہجویری رحمۃ اللہ علیہ غزنی سے لاہور تشریف لائے اور یہیں دین کی خدمت میں زندگی گزاری۔ آپ کی کتاب \"کشف المحجوب\" فارسی زبان میں تصوف کی قدیم ترین کتابوں میں شمار ہوتی ہے۔ آپ کے کردار اور تعلیم سے بے شمار لوگ اسلام کے قریب آئے۔ سبق: علم اور اچھا کردار مل کر دلوں کو بدلتے ہیں۔", en: "Hazrat Syed Ali bin Usman Hujwiri (may Allah have mercy on him) came from Ghazni to Lahore and spent his life serving the Deen here. His book \"Kashf-ul-Mahjoob\" is counted among the earliest works on Tasawwuf in Persian. Countless people came closer to Islam through his character and teaching. Lesson: knowledge and good character together change hearts.", ar: "قدم السيد علي بن عثمان الهجويري رحمه الله من غزنة إلى لاهور، وقضى فيها حياته في خدمة الدين. ويُعدّ كتابه «كشف المحجوب» من أقدم كتب التصوف بالفارسية. وقد اقترب كثيرون من الإسلام بفضل أخلاقه وتعليمه. العبرة: العلم والخُلُق الحسن معًا يغيّران القلوب." } },
+  // Add stories approved by your scholars: { verified: true, title: { ur, en, ar }, text: { ur, en, ar } }
 ];

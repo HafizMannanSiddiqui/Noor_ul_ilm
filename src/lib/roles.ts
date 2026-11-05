@@ -26,9 +26,12 @@ export const can = {
   verifyTexts: (u: U) => has(u, "SCHOLAR"),
   /** Women's section (classes, scholars, sisters' events, sisters' data): FEMALE sisters' admins only. */
   sistersSection: (u: U) => has(u, "SISTERS_ADMIN") && u.gender === "F",
+  /** Public sisters' content (classes, female scholars' text profiles, sisters' events): female sisters' admins and the super admin.
+      Private sisters' data (registrations, join requests) stays with sistersSection only. */
+  sistersContent: (u: U) => can.sistersSection(u) || has(u, "SUPER_ADMIN"),
   brothersSection: (u: U) => has(u, "SUPER_ADMIN", "BROTHERS_ADMIN"),
-  anyEvents: (u: U) => can.sistersSection(u) || can.brothersSection(u),
-  eventAudience: (u: U, audience: string) => (audience === "sisters" ? can.sistersSection(u) : can.brothersSection(u)),
+  anyEvents: (u: U) => can.sistersContent(u) || can.brothersSection(u),
+  eventAudience: (u: U, audience: string) => (audience === "sisters" ? can.sistersContent(u) : can.brothersSection(u)),
   answerQuestions: (u: U) => has(u, "SCHOLAR"),
   manageUsers: (u: U) => has(u, "SUPER_ADMIN"),
 };

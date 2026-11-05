@@ -27,7 +27,7 @@ export default async function Registrations({ searchParams }: { searchParams: Pr
       </div>
       <div className="table-wrap">
         <table>
-          <thead><tr><th>Received</th><th>Name &amp; phone</th><th>Class wanted</th><th>Area</th><th>Notes</th><th>Status</th><th /></tr></thead>
+          <thead><tr><th>Received</th><th>Name &amp; phone</th><th>Class wanted</th><th>Area</th><th>Pick &amp; drop</th><th>Notes</th><th>Status</th><th /></tr></thead>
           <tbody>
             {regs.map((r) => (
               <tr key={r.id}>
@@ -35,6 +35,7 @@ export default async function Registrations({ searchParams }: { searchParams: Pr
                 <td><b>{r.name}</b><br /><a href={`https://wa.me/${r.phone.replace(/^0/, "92").replace(/\D/g, "")}`} target="_blank" rel="noopener">{r.phone}</a></td>
                 <td>{r.subject} · {r.level} · {r.mode}<br /><small>{r.ageGroup}{r.ageGroup === "girls" ? (r.guardianConsent ? " · guardian ✓" : " · guardian ✗") : ""}</small></td>
                 <td>{area(r.area)}</td>
+                <td>{r.needsTransport ? <><b>🚐 Yes</b>{r.pickupPoint ? <><br /><small>{r.pickupPoint}</small></> : null}</> : "—"}</td>
                 <td>{r.notes}</td>
                 <td>
                   <Badge v={r.status} />

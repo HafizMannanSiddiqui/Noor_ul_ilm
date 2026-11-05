@@ -8,7 +8,7 @@
 
 ## 1. Sign in · لاگ اِن
 
-Open **yourwebsite.org/admin** and enter your email and password, or press **Sign in with Google** if your account uses a Gmail address. On the left (on a phone, at the top) you only see the sections you are allowed to use.
+Open **yourwebsite.org/admin** and enter your username (e.g. `admin`) or email and your password, or press **Sign in with Google** if your account uses a Gmail address. On the left (on a phone, at the top) you only see the sections you are allowed to use.
 اپنی ویب سائٹ کے آخر میں ‎/admin‎ لکھیں، ای میل اور پاس ورڈ درج کریں — یا **گوگل سے داخل ہوں** دبائیں۔ آپ کو صرف وہی حصے نظر آئیں گے جن کی آپ کو اجازت ہے۔
 
 | Your role · آپ کا کردار | What you can do · آپ کیا کر سکتے ہیں |
@@ -16,7 +16,7 @@ Open **yourwebsite.org/admin** and enter your email and password, or press **Sig
 | Brothers' admin · منتظم (بھائی) | Write posts, add brothers' and public events, see brothers' join requests · مضامین لکھنا، محافل شامل کرنا |
 | Sisters' admin · منتظمہ (بہنیں) — women only | Classes, female scholars, sisters' events, **sisters' registrations** · کلاسیں، عالمات، بہنوں کے داخلے |
 | Scholar · عالمِ دین | **Approve posts**, verify verses and hadith, answer youth questions · مضامین کی منظوری، آیات و احادیث کی تصدیق |
-| Super admin · نگرانِ اعلیٰ | Create accounts, see the activity log · اکاؤنٹ بنانا، ریکارڈ دیکھنا |
+| Super admin · نگرانِ اعلیٰ | Site settings, accounts, activity log, events, classes and female scholars' profiles (but **not** sisters' registrations) · ترتیبات، اکاؤنٹس، محافل، کلاسیں |
 
 ---
 
@@ -113,9 +113,31 @@ Young people send questions from the Youth page. In **Youth Q&A**, write the que
 
 ---
 
-## 9. Things only the technical person changes · تکنیکی ترتیبات
+## 9. Site settings (no code needed) · ویب سائٹ ترتیبات
 
-These are in the file `src/content/site.ts`: name and tagline, WhatsApp and phone numbers, bank, JazzCash and Easypaisa details, areas of Lahore, the donation transparency figures, the youth quiz and stories. After changing them, run `npm run build` and restart.
+Super admin: **Site settings** in the menu. Press **Save** under each part; the website updates at once.
+نگرانِ اعلیٰ: مینو میں **Site settings** — ہر حصے کے نیچے **Save** دبائیں، ویب سائٹ فوراً بدل جاتی ہے۔
+
+- **Contact:** main WhatsApp number, phone, sisters' WhatsApp (a woman's number), WhatsApp Community link, address. · رابطہ نمبر، واٹس ایپ کمیونٹی لنک
+- **Donations:** JazzCash / Easypaisa / bank accounts, where the money is spent, the monthly report (real figures only), Zakat (only after a Mufti confirms in writing). · عطیات کے اکاؤنٹس، خرچ کی تفصیل
+- **Team:** names, roles and (optional) phone numbers on the About page. · ٹیم
+- **Ayah of the Day:** the list of verse references, e.g. `2:255`. The Arabic and Kanz-ul-Iman load automatically. · روزانہ آیت کی فہرست
+
+## 10. Community stats · کمیونٹی
+
+**Community stats** shows how many people joined, per month, and from which area and city, and how they heard about you. It shows numbers only, never names. Each admin sees the details of their own section. The Join page shows the total number publicly (never names).
+کتنے لوگ شامل ہوئے، کس علاقے اور شہر سے — صرف تعداد، نام نہیں۔
+
+Website visitors (countries, pages, phones vs computers): open your project on vercel.com, then **Analytics**, and press **Enable** once.
+
+## 11. Pick & drop · پِک اینڈ ڈراپ
+
+Sisters can tick **"I need pick & drop"** in the registration form and give a pick-up area. Sisters' admins see this in **Registrations** (🚐 column). It stays private like the rest of the form.
+بہنیں داخلہ فارم میں پِک اینڈ ڈراپ پر نشان لگا سکتی ہیں — یہ صرف منتظمات کو **Registrations** میں نظر آتا ہے۔
+
+## 12. Things only the technical person changes · تکنیکی ترتیبات
+
+These are in the file `src/content/site.ts`: the name and tagline, areas of Lahore, post categories, the youth quiz and stories. (Numbers, accounts and the team are in **Site settings**, see section 9.) After changing them, run `npm run build` and restart.
 یہ چیزیں فائل `src/content/site.ts` میں ہیں — تبدیلی کے بعد ویب سائٹ دوبارہ build کریں۔
 
 **Zakat:** keep `zakatAccepted: false` until a Mufti confirms in writing. · مفتی صاحب کی تحریری تصدیق تک زکوٰۃ بند رکھیں۔

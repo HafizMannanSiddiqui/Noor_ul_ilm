@@ -7,7 +7,7 @@ import { Badge, Msg, Shell } from "../_components/ui";
 export const metadata = { title: "Classes" };
 
 export default async function Classes({ searchParams }: { searchParams: Promise<{ ok?: string; err?: string }> }) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const { ok, err } = await searchParams;
   const classes = await db.classSession.findMany({ include: { teacher: { select: { nameEn: true } } }, orderBy: { sort: "asc" } });
   return (

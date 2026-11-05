@@ -7,7 +7,7 @@ import { Badge, Msg, Shell } from "../_components/ui";
 export const metadata = { title: "Female scholars" };
 
 export default async function Scholars({ searchParams }: { searchParams: Promise<{ ok?: string; err?: string }> }) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const { ok, err } = await searchParams;
   const list = await db.scholar.findMany({ orderBy: { sort: "asc" } });
   return (

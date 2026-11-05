@@ -488,6 +488,33 @@ html.js [data-reveal="zoom"].is-visible { transform: none; }
 .team-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 8px 0 0; }
 .team-contact a.ltr { color: var(--green-800); font-weight: 600; direction: ltr; unicode-bidi: isolate; }
 
+/* ---------- Daily verse/hadith: source line + share bar + Status image preview ---------- */
+.src-note { font-size: .8rem; color: var(--muted); margin: 4px 0 0; text-align: center; }
+.share-verse { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.share-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(4, 24, 18, .82); backdrop-filter: blur(4px); animation: fadeIn .25s ease; }
+.share-sheet { width: min(100%, 420px); max-height: 100%; overflow-y: auto; background: var(--cream); border-radius: var(--radius); padding: 14px; text-align: center; box-shadow: var(--shadow-lg); animation: fadeUp .35s var(--ease); }
+.share-sheet img { display: block; width: auto; max-width: 100%; max-height: min(62vh, 640px); margin: 0 auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+.share-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+.share-help { font-size: .85rem; color: var(--muted); margin: 10px 0 0; }
+
+.any-amount { display: flex; align-items: center; gap: 18px; padding: 20px; border-radius: var(--radius); background: linear-gradient(135deg, var(--gold-100), #fff 70%); border: 2px solid var(--gold); box-shadow: var(--shadow); }
+.any-amount h2 { margin: 0 0 4px; color: var(--green-800); font-size: 1.3rem; }
+.any-amount p { margin: 0; }
+.any-amount-rs { flex: none; display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--green-600), var(--green-900)); color: var(--gold-300); font: 800 1.35rem var(--font-ui); box-shadow: 0 0 0 4px var(--gold-100), 0 0 0 6px var(--gold); animation: pop 3s ease-in-out infinite; }
+@media (max-width: 480px) { .any-amount { flex-direction: column; text-align: center; } }
+
+.community-count { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; margin: 0 auto 18px; padding: 16px; border-radius: var(--radius); background: radial-gradient(120% 120% at 50% 0%, var(--green-700), var(--green-950)); color: var(--gold-100); box-shadow: var(--shadow-lg); border: 1px solid rgba(201, 162, 58, .5); }
+.community-count .stat-num { color: var(--gold-300); font-size: 2.4rem; }
+
+.spend-list { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 10px; }
+.spend-list li { counter-increment: s; display: flex; align-items: center; gap: 12px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; box-shadow: var(--shadow); }
+.spend-list li::before { content: counter(s); flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--green-700); color: var(--gold-300); font: 700 1rem var(--font-ui); }
+
+.featured-transport { display: inline-block; margin: 0 0 12px; padding: 4px 14px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px dashed rgba(230, 198, 109, .6); color: var(--gold-100); }
+.transport-note { display: flex; gap: 12px; align-items: center; margin: 0; padding: 14px 16px; border-radius: var(--radius); background: var(--green-100); border: 1px solid #b9dccb; color: var(--green-800); font-weight: 600; }
+.transport-note span { font-size: 1.8rem; }
+.transport-box { border: 1px dashed var(--gold); border-radius: 12px; padding: 10px 12px; margin: 0; display: grid; gap: 8px; background: var(--gold-100); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   html.js [data-reveal] { opacity: 1; transform: none; }
@@ -495,3 +522,4 @@ html.js [data-reveal="zoom"].is-visible { transform: none; }
   .particles, .rosette { display: none; }
 }
 @media print { .site-header, .site-footer, .wa-float, .share, .cta, .tabbar, .lantern, .particles { display: none !important; } }
+.center-row { text-align: center; }

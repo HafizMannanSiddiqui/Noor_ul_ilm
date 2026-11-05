@@ -36,7 +36,8 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
         <ul>
           {can.editPosts(u) && <li><Link href="/admin/posts/new">Write a new post</Link> → &ldquo;Send for review&rdquo; → a scholar approves → it appears on the site.</li>}
           {can.anyEvents(u) && <li><Link href="/admin/events/new">Add an event</Link> (Mehfil-e-Naat, Dars, Ijtima, Milad…).</li>}
-          {can.sistersSection(u) && <li><Link href="/admin/classes/new">Add a class</Link> for the Women&apos;s Corner.</li>}
+          {can.sistersContent(u) && <li><Link href="/admin/classes/new">Add a class</Link> for the Women&apos;s Corner · <Link href="/admin/scholars/new">Add a female scholar</Link>.</li>}
+          {can.manageUsers(u) && <li><Link href="/admin/settings">Site settings</Link>: phone numbers, donation accounts, team, WhatsApp community link, Ayah of the Day list.</li>}
           <li>Full instructions: <code>ADMIN-GUIDE.md</code> (Urdu &amp; English).</li>
         </ul>
       </div>

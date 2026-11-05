@@ -29,7 +29,7 @@ export default async function Youth({ params }: LangParams) {
     <>
       <PageHead title={t("youthTitle")} intro={t("youthIntro")} />
       <Section title={t("quiz")} narrow><div className="card card-gold" {...reveal()}><Quiz lang={lang} /></div></Section>
-      <Section title={t("stories")}>
+      {stories.length > 0 && <Section title={t("stories")}>
         <div className="grid grid-2">
           {stories.map((s, i) => (
             <article key={i} className="card hover card-gold" {...reveal(i * 0.1)}>
@@ -39,7 +39,7 @@ export default async function Youth({ params }: LangParams) {
             </article>
           ))}
         </div>
-      </Section>
+      </Section>}
       <Section title={t("qa")}>
         <div className="item-list">
           {questions.map((q, i) => {

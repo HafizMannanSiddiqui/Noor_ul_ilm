@@ -10,7 +10,7 @@ export const metadata = { title: "Events" };
 export default async function Events({ searchParams }: { searchParams: Promise<{ ok?: string; err?: string }> }) {
   const u = await requireUser(can.anyEvents);
   const { ok, err } = await searchParams;
-  const audiences = [...(can.sistersSection(u) ? ["sisters"] : []), ...(can.brothersSection(u) ? ["brothers", "all"] : [])];
+  const audiences = [...(can.sistersContent(u) ? ["sisters"] : []), ...(can.brothersSection(u) ? ["brothers", "all"] : [])];
   const events = await db.event.findMany({ where: { audience: { in: audiences } }, orderBy: [{ date: "desc" }] });
   return (
     <Shell user={u}>

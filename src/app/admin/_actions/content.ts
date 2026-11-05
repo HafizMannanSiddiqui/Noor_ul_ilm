@@ -179,7 +179,7 @@ export async function deleteEvent(fd: FormData) {
 
 /* ================ SISTERS' SECTION (female admins only) ================ */
 export async function saveClass(fd: FormData) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const id = s(fd, "id");
   const teacherId = s(fd, "teacherId") || null;
   const data = {
@@ -198,7 +198,7 @@ export async function saveClass(fd: FormData) {
 }
 
 export async function deleteClass(fd: FormData) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const id = s(fd, "id");
   await db.classSession.delete({ where: { id } });
   await audit(u.id, "class.delete", "ClassSession", id);
@@ -207,7 +207,7 @@ export async function deleteClass(fd: FormData) {
 }
 
 export async function saveScholar(fd: FormData) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const id = s(fd, "id");
   const data = { ...tri(fd, "name", 200), ...tri(fd, "title", 200), ...tri(fd, "subjects", 300), ...tri(fd, "bio", 2000), active: fd.get("active") === "on", sort: Number(s(fd, "sort")) || 0 } as Record<string, unknown>;
   if (!data.nameUr || !data.nameEn) back(id ? `/admin/scholars/${id}` : "/admin/scholars/new", "Name in Urdu and English is required.", true);
@@ -218,7 +218,7 @@ export async function saveScholar(fd: FormData) {
 }
 
 export async function deleteScholar(fd: FormData) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const id = s(fd, "id");
   await db.scholar.delete({ where: { id } });
   await audit(u.id, "scholar.delete", "Scholar", id);

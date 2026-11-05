@@ -69,6 +69,13 @@ export function SisterForm({ lang }: { lang: Lang }) {
         <textarea id="f-notes" name="notes" rows={2} maxLength={1000} />
       </div>
       <label className="check"><input type="checkbox" name="guardian" /> <span>{t("fGuardian")}</span></label>
+      <fieldset className="transport-box">
+        <label className="check"><input type="checkbox" name="transport" /> <span>🚐 {t("fTransport")}</span></label>
+        <div className="field">
+          <label htmlFor="f-pickupPoint">{t("fPickup")}</label>
+          <input id="f-pickupPoint" name="pickupPoint" maxLength={200} autoComplete="off" />
+        </div>
+      </fieldset>
       <p className="privacy">{t("sistersPrivacy")}</p>
       {errorText(state, t)}
       <button className="btn btn-green" type="submit" disabled={pending}>{pending ? t("sending") : t("submit")}</button>
@@ -87,7 +94,9 @@ export function JoinForm({ lang }: { lang: Lang }) {
       <Input name="phone" label={t("fPhone")} type="tel" auto="tel" />
       <Select name="gender" label={t("fGender")} opts={[["", t("select")], ["M", t("brother")], ["F", t("sister")]]} />
       <Select name="area" label={t("fArea")} opts={areaOpts(lang, t)} />
-      <Select name="role" label={t("fRole")} opts={[["", t("select")], ["vbrother", t("role_vbrother")], ["vsister", t("role_vsister")], ["student", t("role_student")], ["supporter", t("role_supporter")]]} />
+      <Input name="city" label={t("fCity")} required={false} auto="address-level2" />
+      <Select name="role" label={t("fRole")} opts={[["", t("select")], ["follower", t("role_follower")], ["vbrother", t("role_vbrother")], ["vsister", t("role_vsister")], ["student", t("role_student")], ["supporter", t("role_supporter")]]} />
+      <Select name="heardFrom" label={t("fHeard")} required={false} opts={[["", t("select")], ...(["whatsapp", "family", "dars", "masjid", "facebook", "poster", "other"] as const).map((k): Opt => [k, t(`heard_${k}`)])]} />
       <div className="field">
         <label htmlFor="f-notes">{t("fNotes")}</label>
         <textarea id="f-notes" name="notes" rows={2} maxLength={1000} />

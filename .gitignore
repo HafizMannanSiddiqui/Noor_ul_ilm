@@ -9,3 +9,4 @@ next-env.d.ts
 .next-test
 .env*.local
 .vercel
+prisma/schema.local-sqlite.prisma

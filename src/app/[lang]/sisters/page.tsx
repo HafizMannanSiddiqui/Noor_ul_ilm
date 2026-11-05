@@ -31,6 +31,9 @@ export default async function Sisters({ params }: LangParams) {
     <>
       <PageHead title={t("sistersTitle")} intro={t("sistersIntro")} />
       {featured && <FeaturedEvent e={featured} lang={lang} today={todayPK()} />}
+      <section className="section" style={{ paddingBottom: 0 }}>
+        <div className="wrap"><p className="transport-note" {...reveal()}><span aria-hidden="true">🚐</span> {t("transportNote")}</p></div>
+      </section>
       <Section title={t("schedule")}><ClassBrowser lang={lang} classes={view} /></Section>
       <Section title={t("regTitle")} id="register" narrow><SisterForm lang={lang} /></Section>
       <Section title={t("scholarsTitle")}>
@@ -42,8 +45,8 @@ export default async function Sisters({ params }: LangParams) {
               <div>
                 <h3>{pick(s, "name", lang)}</h3>
                 <p className="muted">{pick(s, "title", lang)}</p>
-                <p>{pick(s, "subjects", lang)}</p>
-                <p className="muted">{pick(s, "bio", lang)}</p>
+                {pick(s, "subjects", lang) && <p>{pick(s, "subjects", lang)}</p>}
+                {pick(s, "bio", lang) && <p className="muted">{pick(s, "bio", lang)}</p>}
               </div>
             </article>
           ))}

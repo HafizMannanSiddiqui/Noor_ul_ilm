@@ -9,7 +9,7 @@ import { Msg, Shell, Tri } from "../../_components/ui";
 export const metadata = { title: "Edit scholar profile" };
 
 export default async function EditScholar({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string; err?: string }> }) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const { id } = await params;
   const { ok, err } = await searchParams;
   const s = id === "new" ? null : await db.scholar.findUnique({ where: { id } });

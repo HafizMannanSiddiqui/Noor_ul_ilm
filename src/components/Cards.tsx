@@ -118,6 +118,7 @@ export function FeaturedEvent({ e, lang, today }: { e: Event; lang: Lang; today:
             </div>
           )}
           <p className="featured-venue">📍 {pick(e, "venue", lang)}</p>
+          {e.audience === "sisters" && <p className="featured-transport">🚐 {t("transportShort")}</p>}
           <span className="pill pill-gold">{t(`aud_${e.audience}` as StringKey)}</span>
         </article>
       </div>

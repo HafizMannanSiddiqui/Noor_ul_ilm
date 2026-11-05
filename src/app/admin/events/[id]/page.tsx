@@ -18,7 +18,7 @@ export default async function EditEvent({ params, searchParams }: { params: Prom
   if (e && !can.eventAudience(u, e.audience)) redirect("/admin/events?err=Not%20allowed");
   const audiences: [string, string][] = [
     ...(can.brothersSection(u) ? ([["all", "Everyone (separate arrangement for sisters)"], ["brothers", "Brothers only"]] as [string, string][]) : []),
-    ...(can.sistersSection(u) ? ([["sisters", "Sisters only"]] as [string, string][]) : []),
+    ...(can.sistersContent(u) ? ([["sisters", "Sisters only"]] as [string, string][]) : []),
   ];
   const row = e as unknown as Record<string, unknown> | null;
 

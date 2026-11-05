@@ -9,7 +9,7 @@ import { Msg, Select, Shell, Tri } from "../../_components/ui";
 export const metadata = { title: "Edit class" };
 
 export default async function EditClass({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string; err?: string }> }) {
-  const u = await requireUser(can.sistersSection);
+  const u = await requireUser(can.sistersContent);
   const { id } = await params;
   const { ok, err } = await searchParams;
   const c = id === "new" ? null : await db.classSession.findUnique({ where: { id } });

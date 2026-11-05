@@ -11,12 +11,13 @@ export function Shell({ user, children }: { user: SessionUser; children: React.R
   if (can.editTexts(user)) links.push(["/admin/texts", "Verses & Hadith · آیات و احادیث"]);
   if (can.answerQuestions(user)) links.push(["/admin/questions", "Youth Q&A · سوال و جواب"]);
   if (can.anyEvents(user)) links.push(["/admin/events", "Events · محافل"]);
-  if (can.sistersSection(user)) {
+  if (can.sistersContent(user)) {
     links.push("Sisters' section · بہنیں");
-    links.push(["/admin/classes", "Classes · کلاسیں"], ["/admin/scholars", "Female scholars · عالمات"], ["/admin/registrations", "Registrations · داخلے"]);
+    links.push(["/admin/classes", "Classes · کلاسیں"], ["/admin/scholars", "Female scholars · عالمات"]);
+    if (can.sistersSection(user)) links.push(["/admin/registrations", "Registrations · داخلے"]);
   }
-  if (can.sistersSection(user) || can.brothersSection(user)) links.push(["/admin/members", "Join requests · رکنیت"]);
-  if (can.manageUsers(user)) links.push("Settings · ترتیبات", ["/admin/users", "Admin accounts · منتظمین"], ["/admin/audit", "Activity log · ریکارڈ"]);
+  if (can.sistersSection(user) || can.brothersSection(user)) links.push(["/admin/members", "Join requests · رکنیت"], ["/admin/community", "Community stats · کمیونٹی"]);
+  if (can.manageUsers(user)) links.push("Settings · ترتیبات", ["/admin/settings", "Site settings · ویب سائٹ ترتیبات"], ["/admin/users", "Admin accounts · منتظمین"], ["/admin/audit", "Activity log · ریکارڈ"]);
 
   return (
     <div className="a-shell">
