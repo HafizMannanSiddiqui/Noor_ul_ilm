@@ -12,7 +12,7 @@ It is one Next.js 15 application that includes the public website, the admin pan
 ```bash
 npm install                 # npm 11+: if Prisma/esbuild scripts are blocked, run
                             # npm install-scripts approve @prisma/client prisma @prisma/engines esbuild
-cp .env.example .env        # then edit .env — set SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+cp .env.example .env        # then edit .env — DATABASE_URL(_UNPOOLED), SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
 npm run setup               # creates the database + first admin + sample content
 npm run dev                 # http://localhost:3000  (admin: http://localhost:3000/admin)
 ```
@@ -53,9 +53,15 @@ Before launch:
 3. Set `SHOW_DRAFTS="false"`. After that, only approved posts and verified texts appear on the site.
 4. Put your real phone numbers, accounts and registration number in `src/content/site.ts`.
 5. Delete the demo accounts, or deactivate them in Admin, then Admin accounts.
-6. Back up `prisma/noor.db` daily (copy the file). It holds private registration data, so store the backups securely.
+6. Turn on your database provider's backups. The database holds private registration data, so keep backups secure.
 
-**Hosting:** SQLite works on any single server (VPS) and needs no setup. For serverless hosting such as Vercel, switch to Postgres: in `prisma/schema.prisma` set `provider = "postgresql"`, point `DATABASE_URL` at your database, then run `npx prisma db push && npm run db:seed`.
+**Hosting on Vercel (recommended, free):**
+1. Import the GitHub repo in Vercel. `vercel.json` sets the framework to Next.js.
+2. In the project, open **Storage → Create → Neon (Postgres)**, choose the free plan and connect it. This adds `DATABASE_URL` and `DATABASE_URL_UNPOOLED` for you.
+3. In **Settings → Environment Variables**, add `SESSION_SECRET`, `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SEED_DEMO="false"`, `SHOW_DRAFTS`, `SITE_URL` (e.g. `https://your-project.vercel.app`) and, optionally, the Google keys.
+4. Redeploy. The `vercel-build` script creates the tables, and on the very first deploy it adds the first admin and the sample content.
+
+Any PostgreSQL works (Supabase, Railway, your own server). Put the pooled address in `DATABASE_URL` and the direct address in `DATABASE_URL_UNPOOLED`.
 
 ## Privacy and security model
 

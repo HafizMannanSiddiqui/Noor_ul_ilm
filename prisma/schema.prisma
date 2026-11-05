@@ -6,9 +6,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// PostgreSQL (e.g. Neon, free). On Vercel: Storage > Neon adds both variables automatically.
+// DATABASE_URL = pooled connection (app), DATABASE_URL_UNPOOLED = direct connection (schema changes).
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 /// Admin accounts. roles is a comma-separated list of:

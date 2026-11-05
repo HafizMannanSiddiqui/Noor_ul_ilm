@@ -15,6 +15,12 @@ async function upsertUser(email: string, name: string, gender: "M" | "F", roles:
 }
 
 async function main() {
+  // On Vercel this runs on every deploy with --first-run: only fill an empty database,
+  // so content that admins edit or delete later is never brought back.
+  if (process.argv.includes("--first-run") && (await db.user.count()) > 0) {
+    console.log("Database already set up — skipping seed.");
+    return;
+  }
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPw = process.env.ADMIN_PASSWORD;
   if (!adminEmail || !adminPw || adminPw.length < 10) throw new Error("Set ADMIN_EMAIL and ADMIN_PASSWORD (10+ chars) in .env");
