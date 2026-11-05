@@ -534,6 +534,19 @@ html.js [data-reveal="zoom"].is-visible { transform: none; }
   .sub-badge { position: relative; top: auto; right: auto; margin: 0 16px 12px auto; width: fit-content; max-width: calc(100% - 32px); }
 }
 
+/* ---------- Subscribe dialog + searchable place picker ---------- */
+.sub-sheet { position: relative; width: min(100%, 460px); text-align: start; padding: 18px 16px; }
+.sub-sheet h2 { margin: 0 0 4px; color: var(--green-800); font-size: 1.25rem; padding-inline-end: 36px; }
+.sub-close { position: absolute; top: 10px; inset-inline-end: 10px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); color: var(--ink); font-size: 1rem; cursor: pointer; }
+.sub-form .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sub-form .btn-gold { width: 100%; justify-content: center; }
+.picker { position: relative; }
+.picker-list { position: absolute; z-index: 20; inset-inline: 0; top: 100%; margin: 4px 0 0; padding: 4px; list-style: none; max-height: 240px; overflow-y: auto; background: var(--white); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-lg); }
+.picker-list li { padding: 8px 10px; border-radius: 8px; cursor: pointer; line-height: 1.6; }
+.picker-list li.hi { background: var(--green-100); color: var(--green-800); }
+.picker-list li.other { color: var(--gold-600); font-weight: 700; }
+.picker-other { margin-top: 8px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   html.js [data-reveal] { opacity: 1; transform: none; }
@@ -542,3 +555,4 @@ html.js [data-reveal="zoom"].is-visible { transform: none; }
 }
 @media print { .site-header, .site-footer, .wa-float, .share, .cta, .tabbar, .lantern, .particles { display: none !important; } }
 .center-row { text-align: center; }
+.sub-sheet { color: var(--ink); }

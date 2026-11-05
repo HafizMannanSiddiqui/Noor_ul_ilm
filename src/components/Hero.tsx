@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Ornament from "./Ornament";
+import SubscribeBadge from "./Subscribe";
+import type { Lang } from "@/lib/lang";
 
 /** Deterministic "random" particle layout (same on server and client). */
 const PARTICLES = Array.from({ length: 16 }, (_, i) => {
@@ -57,7 +59,7 @@ type Props = {
   cta: { join: { href: string; label: string }; register: { href: string; label: string }; donate: { href: string; label: string } };
   scrollLabel: string;
   /** Subscribe-style community badge (top-right of the hero). */
-  community?: { count: string; title: string; members: string; cta: string; href: string };
+  community?: { lang: Lang; count: string; title: string; members: string; cta: string; href: string };
 };
 
 export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollLabel, community }: Props) {
@@ -74,16 +76,7 @@ export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollL
           <span key={i} style={{ "--x": p.x, "--s": p.s, "--t": p.t, "--d": p.d, "--dx": p.dx } as React.CSSProperties} />
         ))}
       </div>
-      {community && (
-        <Link className="sub-badge rise" href={community.href} style={{ "--d": ".3s" } as React.CSSProperties}>
-          <span className="sub-avatar" aria-hidden="true">🔔</span>
-          <span className="sub-text">
-            <b>{community.title}</b>
-            {community.count !== "0" && <small><span className="sub-count">{community.count}</span> {community.members}</small>}
-          </span>
-          <span className="sub-btn">{community.cta}</span>
-        </Link>
-      )}
+      {community && <SubscribeBadge {...community} />}
       <div className="wrap">
         <div className="arch">
           <p className="bismillah rise" lang="ar" style={{ "--d": ".1s" } as React.CSSProperties}>بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>

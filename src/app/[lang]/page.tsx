@@ -54,7 +54,7 @@ export default async function Home({ params }: LangParams) {
         tagline={tr(ORG.tagline, lang)}
         lead={t("heroIntro")}
         scrollLabel={t("scrollDown")}
-        community={{ count: members > 0 ? new Intl.NumberFormat(LOCALE[lang]).format(members) : "0", title: t("communityTitle"), members: t("membersLbl"), cta: t("tab_join"), href: p("/join") }}
+        community={{ lang, count: members > 0 ? new Intl.NumberFormat(LOCALE[lang]).format(members) : "0", title: t("communityTitle"), members: t("membersLbl"), cta: t("subscribeNow"), href: p("/join") }}
         cta={{
           join: { href: p("/join"), label: t("joinUs") },
           register: { href: p("/sisters#register"), label: t("registerClass") },

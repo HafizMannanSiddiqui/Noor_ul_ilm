@@ -185,6 +185,7 @@ model MemberApplication {
   area      String
   role      String // follower | vbrother | vsister | student | supporter
   city      String   @default("")
+  age       Int?
   heardFrom String   @default("") // whatsapp | family | dars | masjid | facebook | poster | other
   notes     String   @default("")
   section   String

@@ -46,7 +46,7 @@ export default async function Community() {
 
   const [total, rows] = await Promise.all([
     db.memberApplication.count({ where: active }),
-    db.memberApplication.findMany({ where: mine, select: { area: true, city: true, role: true, heardFrom: true, createdAt: true } }),
+    db.memberApplication.findMany({ where: mine, select: { area: true, city: true, role: true, heardFrom: true, age: true, createdAt: true } }),
   ]);
 
   const tally = (key: (r: (typeof rows)[number]) => string) => {
@@ -54,8 +54,11 @@ export default async function Community() {
     for (const r of rows) m.set(key(r), (m.get(key(r)) || 0) + 1);
     return [...m.entries()].sort((a, b) => b[1] - a[1]);
   };
-  const areaName = (id: string) => { const a = AREAS.find((x) => x.id === id); return a ? `${a.en} · ${a.ur}` : id; };
+  const areaName = (id: string) => { const a = AREAS.find((x) => x.id === id); return a ? `${a.en} · ${a.ur}` : id || "— (outside Lahore)"; };
   const byArea = tally((r) => r.area).map(([k, n]): [string, number] => [areaName(k), n]);
+  const ageGroup = (a: number | null) => (a == null ? "Not given" : a < 13 ? "Under 13" : a < 18 ? "13–17" : a < 25 ? "18–24" : a < 35 ? "25–34" : a < 50 ? "35–49" : "50+");
+  const AGE_ORDER = ["Under 13", "13–17", "18–24", "25–34", "35–49", "50+", "Not given"];
+  const byAge = tally((r) => ageGroup(r.age)).sort((a, b) => AGE_ORDER.indexOf(a[0]) - AGE_ORDER.indexOf(b[0]));
   const byCity = tally((r) => (r.city.trim() ? r.city.trim().replace(/\b\w/g, (c) => c.toUpperCase()) : "Lahore (default) · لاہور")).slice(0, 15);
   const byRole = tally((r) => r.role).map(([k, n]): [string, number] => [ROLE[k] || k, n]);
   const byHeard = tally((r) => r.heardFrom).map(([k, n]): [string, number] => [HEARD[k] || k, n]);
@@ -85,6 +88,7 @@ export default async function Community() {
       <div className="grid-2a">
         <Bars title="Area of Lahore · علاقہ" rows={byArea} />
         <Bars title="City · شہر" rows={byCity} />
+        <Bars title="Age group · عمر" rows={byAge} />
         <Bars title="How they joined · حیثیت" rows={byRole} />
         <Bars title="How they heard about us · ذریعہ" rows={byHeard} />
       </div>

@@ -27,9 +27,9 @@ export default async function Members({ searchParams }: { searchParams: Promise<
             {list.map((m) => (
               <tr key={m.id}>
                 <td>{fmt(m.createdAt)}<br /><small>{m.section}</small></td>
-                <td><b>{m.name}</b><br /><a href={`https://wa.me/${m.phone.replace(/^0/, "92").replace(/\D/g, "")}`} target="_blank" rel="noopener">{m.phone}</a></td>
+                <td><b>{m.name}</b>{m.age ? <small> · {m.age} yrs</small> : null}<br /><a href={`https://wa.me/${m.phone.replace(/^0/, "92").replace(/\D/g, "")}`} target="_blank" rel="noopener">{m.phone}</a></td>
                 <td>{m.role}</td>
-                <td>{AREAS.find((a) => a.id === m.area)?.en}{m.city ? <><br /><small>{m.city}</small></> : null}</td>
+                <td>{AREAS.find((a) => a.id === m.area)?.en || m.area}{m.city ? <><br /><small>{m.city}</small></> : null}</td>
                 <td>{m.heardFrom}</td>
                 <td>{m.notes}</td>
                 <td>

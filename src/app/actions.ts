@@ -85,6 +85,33 @@ export async function joinCommunity(_: FormState, fd: FormData): Promise<FormSta
   }
 }
 
+/* Subscribe (home page badge): a follower with name, age, mobile, city and (in Lahore) area. */
+const subscribeSchema = z.object({
+  name: text(100).min(2),
+  age: z.coerce.number().int().min(5).max(110),
+  phone,
+  gender: z.enum(["M", "F"]),
+  city: text(60).min(2),
+  area: text(80).optional().default(""),
+});
+
+export async function subscribeCommunity(_: FormState, fd: FormData): Promise<FormState> {
+  if (fd.get("website")) return { ok: true };
+  if (await limited()) return { ok: false, error: "rate" };
+  const p = subscribeSchema.safeParse(Object.fromEntries(fd));
+  if (!p.success) return fail(p.error);
+  const d = p.data;
+  const section = d.gender === "F" ? "SISTERS" : "BROTHERS"; // sisters' details: female admins only
+  try {
+    await db.memberApplication.create({
+      data: { name: d.name, phone: d.phone, gender: d.gender, age: d.age, city: d.city, area: d.city === "Lahore" ? d.area : "", role: "follower", heardFrom: "", section },
+    });
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "server" };
+  }
+}
+
 const questionSchema = z.object({ question: text(800).min(8), lang: z.enum(["ur", "en", "ar"]) });
 
 export async function askQuestion(_: FormState, fd: FormData): Promise<FormState> {
