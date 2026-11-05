@@ -7,7 +7,7 @@ import SacredCard, { PlaceholderCard } from "@/components/SacredCard";
 import { EventItem, FeaturedEvent, PostCard, Section } from "@/components/Cards";
 import { ORG } from "@/content/site";
 import { db } from "@/lib/db";
-import { todayPK, tr } from "@/lib/lang";
+import { LOCALE, todayPK, tr } from "@/lib/lang";
 import { langOf, reveal, type LangParams } from "@/lib/page";
 import { communityCount, nextFeaturedEvent, publicPostWhere, publicTextWhere, upcomingEvents } from "@/lib/queries";
 import { getT } from "@/lib/strings";
@@ -54,6 +54,7 @@ export default async function Home({ params }: LangParams) {
         tagline={tr(ORG.tagline, lang)}
         lead={t("heroIntro")}
         scrollLabel={t("scrollDown")}
+        community={{ count: members > 0 ? new Intl.NumberFormat(LOCALE[lang]).format(members) : "0", title: t("communityTitle"), members: t("membersLbl"), cta: t("tab_join"), href: p("/join") }}
         cta={{
           join: { href: p("/join"), label: t("joinUs") },
           register: { href: p("/sisters#register"), label: t("registerClass") },

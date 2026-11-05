@@ -56,9 +56,11 @@ type Props = {
   lead: string;
   cta: { join: { href: string; label: string }; register: { href: string; label: string }; donate: { href: string; label: string } };
   scrollLabel: string;
+  /** Subscribe-style community badge (top-right of the hero). */
+  community?: { count: string; title: string; members: string; cta: string; href: string };
 };
 
-export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollLabel }: Props) {
+export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollLabel, community }: Props) {
   return (
     <section className="hero">
       <div className="hero-pattern" aria-hidden="true" />
@@ -72,6 +74,16 @@ export default function Hero({ calligraphy, subName, tagline, lead, cta, scrollL
           <span key={i} style={{ "--x": p.x, "--s": p.s, "--t": p.t, "--d": p.d, "--dx": p.dx } as React.CSSProperties} />
         ))}
       </div>
+      {community && (
+        <Link className="sub-badge rise" href={community.href} style={{ "--d": ".3s" } as React.CSSProperties}>
+          <span className="sub-avatar" aria-hidden="true">🔔</span>
+          <span className="sub-text">
+            <b>{community.title}</b>
+            {community.count !== "0" && <small><span className="sub-count">{community.count}</span> {community.members}</small>}
+          </span>
+          <span className="sub-btn">{community.cta}</span>
+        </Link>
+      )}
       <div className="wrap">
         <div className="arch">
           <p className="bismillah rise" lang="ar" style={{ "--d": ".1s" } as React.CSSProperties}>بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>

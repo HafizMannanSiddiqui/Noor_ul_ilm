@@ -210,6 +210,8 @@ export const STRINGS = {
   "fPickup": ["پِک اپ کا علاقہ یا قریبی نشانی (اختیاری)","Pick-up area or nearby landmark (optional)","منطقة الالتقاء أو معلم قريب (اختياري)"],
   "transportNote": ["خواتین اور بچیوں کے لیے اجتماع گاہ تک آنے جانے (پِک اینڈ ڈراپ) کا انتظام کیا جاتا ہے۔ داخلہ فارم میں نشان لگائیں یا واٹس ایپ پر رابطہ کریں۔","We arrange pick & drop for women and girls to the Ijtima point. Tick it in the registration form or message us on WhatsApp.","نوفّر التوصيل ذهابًا وإيابًا للنساء والفتيات إلى مكان الاجتماع. اختاريه في استمارة التسجيل أو راسلينا على واتساب."],
   "transportShort": ["خواتین و بچیوں کے لیے پِک اینڈ ڈراپ کی سہولت","Pick & drop available for women and girls","التوصيل متاح للنساء والفتيات"],
+  "communityTitle": ["ہماری کمیونٹی کا حصہ بنیں","Be a part of our community","كن جزءًا من مجتمعنا"],
+  "membersLbl": ["ممبرز","members","عضوًا"],
   "specialTalk": ["خصوصی گفتگو","Special talk","كلمة خاصة"],
   "featuredEv": ["خصوصی اجتماع","Featured gathering","لقاء مميّز"],
   "evToday": ["آج، ان شاء اللہ","Today, in sha Allah","اليوم إن شاء الله"],

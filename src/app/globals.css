@@ -515,6 +515,25 @@ html.js [data-reveal="zoom"].is-visible { transform: none; }
 .transport-note span { font-size: 1.8rem; }
 .transport-box { border: 1px dashed var(--gold); border-radius: 12px; padding: 10px 12px; margin: 0; display: grid; gap: 8px; background: var(--gold-100); }
 
+/* ---------- Subscribe-style community badge (home hero, top right) ---------- */
+.sub-badge {
+  position: absolute; top: 14px; right: 16px; z-index: 5; display: flex; align-items: center; gap: 10px;
+  padding: 6px 6px 6px 8px; border-radius: 999px; text-decoration: none; color: var(--white);
+  background: rgba(6, 42, 31, .72); border: 1px solid rgba(230, 198, 109, .55); backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, .6); transition: transform .2s var(--ease), box-shadow .2s;
+}
+.sub-badge:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -10px rgba(0, 0, 0, .7); }
+.sub-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--gold-300), var(--gold-600)); font-size: 1.05rem; animation: ring 2.8s ease-in-out infinite; }
+.sub-text { display: grid; line-height: 1.35; text-align: start; }
+.sub-text b { font-size: .86rem; font-weight: 700; }
+.sub-text small { font-size: .8rem; color: var(--gold-100); }
+.sub-count { font: 800 .95rem var(--font-ui); color: var(--gold-300); }
+.sub-btn { padding: 6px 14px; border-radius: 999px; background: linear-gradient(180deg, var(--gold-300), var(--gold)); color: var(--green-950); font-weight: 800; font-size: .85rem; white-space: nowrap; }
+@keyframes ring { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(14deg); } 80% { transform: rotate(-12deg); } 85% { transform: rotate(8deg); } 90% { transform: rotate(-4deg); } }
+@media (max-width: 720px) {
+  .sub-badge { position: relative; top: auto; right: auto; margin: 0 16px 12px auto; width: fit-content; max-width: calc(100% - 32px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   html.js [data-reveal] { opacity: 1; transform: none; }
