@@ -1,3 +1,3 @@
-/** Show not-yet-approved posts/texts (with a Draft warning). Set SHOW_DRAFTS="false" before launch. */
-export const SHOW_DRAFTS = process.env.SHOW_DRAFTS === "true";
+/** Show posts that are not yet scholar-approved, with a "Draft" label. On unless SHOW_DRAFTS="false". */
+export const SHOW_DRAFTS = process.env.SHOW_DRAFTS !== "false";
 export const SITE_URL = (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
